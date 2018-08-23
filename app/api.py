@@ -1,7 +1,14 @@
-from flask import Flask
+from flask import Flask, jsonify, request, make_response
+from flask_restful import Resource, Api
+
 app = Flask(__name__)
+api = Api(app)
 
-@app.route('/')
 
-def hello_world():
-    return 'Hello world'
+class Home(Resource):
+    def get(self):
+        return jsonify({'message': 'Welcome to Stackoverflow-lite'})
+
+api.add_resource(Home, '/')
+if __name__ == '__main__':
+    app.run(debug=True)
