@@ -43,7 +43,16 @@ class QuestionList(Resource):
 
 
 class Question(Resource):
-    pass
+    """This is a class for questions with IDs"""
+    def get(self, id):
+        """This is a method for retrieving a question using GET request"""
+        cur.execute("SELECT * FROM questions WHERE ID= %s", (id,))
+        result = cur.fetchone()
+        if result is None:
+            return jsonify({'message': 'Question not found!'})
+        return jsonify(result)
+
+
     
 api.add_resource(Home, '/')
 api.add_resource(QuestionList, '/api/v1/questions', endpoint='questions')
