@@ -67,9 +67,20 @@ class Question(Resource):
             return jsonify({'message': 'Not complete no entry!'})
         conn.commit()
         return jsonify({'message': 'Entry successfuly Updated'})
+    
+    def delete(self, id):
+        """This is a method for deleting a question using DELETE request"""
+        try:
+            cur.execute("DELETE FROM questions WHERE ID = %s", (id,))
+            conn.commit()
 
-        
-        
+        except:
+            return jsonify({'message': 'Cant retrieve question'})
+
+        finally: 
+            conn.close()
+
+        return jsonify({'message': 'successfully deleted'})
 
 
     
