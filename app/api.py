@@ -10,5 +10,6 @@ class Home(Resource):
         return jsonify({'message': 'Welcome to Stackoverflow-lite'})
 
 api.add_resource(Home, '/')
+
 if __name__ == '__main__':
     app.run(debug=True)
