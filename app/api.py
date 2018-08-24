@@ -16,7 +16,17 @@ class QuestionList(Resource):
     """This is a class for questions without IDs"""
     def get(self):
         """This is a method for getting a list of questions using GET request"""
-        pass
+        my_list = []
+        try:
+            cur.execute("SELECT * FROM questions")
+            rows = cur.fetchall()
+            for row in rows:
+                my_list.append(row[0])
+                my_list.append(row[1])
+                my_list.append(row[2])
+        except:
+            return jsonify({'message': 'Cannot retrieve entries'})
+        return jsonify(my_list)
     
     def post(self):
         """This is a method for creating a question using POST request"""
