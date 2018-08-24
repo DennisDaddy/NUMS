@@ -29,7 +29,7 @@ class QuestionList(Resource):
             return jsonify({'message': 'Fill in the content'})
         cur.execute("INSERT INTO questions (title, content) VALUES('"+title+"','"+content+"');")
         conn.commit()
-        return jsonify({'message': 'Question successfully created'})
+        return jsonify({'message': 'Question successfully created!'})
 
 
 class Question(Resource):
