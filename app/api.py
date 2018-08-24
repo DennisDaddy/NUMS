@@ -44,8 +44,9 @@ class QuestionList(Resource):
 
 class Question(Resource):
     """This is a class for questions with IDs"""
+
     def get(self, id):
-        """This is a method for retrieving a question using GET request"""
+        """This is a method for retrieving question using GET request"""
         cur.execute("SELECT * FROM questions WHERE ID= %s", (id,))
         result = cur.fetchone()
         if result is None:
