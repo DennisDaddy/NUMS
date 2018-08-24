@@ -82,9 +82,27 @@ class Question(Resource):
 
         return jsonify({'message': 'successfully deleted'})
 
+class UserRegistration(Resource):
+    def post(self):
+        username = request.get_json()['username']
+        email = request.get_json()['email']
+        password = request.get_json()['password']
+        password_confirmation = request.get_json()['password_confirmation']
+        
+        cur.execute("SELECT * FROM users WHERE username LIKE '"+username+"'")
+        user = cur.fetchone()
+        if user is None:
+            cur.execute("INSERT INTO users (username, email, password, password_confirmation)\
+            VALUES('"+username+"', '"+email+"', '"+password+"', '"+password_confirmation+"');")
+        else:
+            return jsonify({'message': 'user already exists'})
+        conn.commit()
+        return jsonify({'message': 'You are successfully registered!'})
+
 
     
 api.add_resource(Home, '/')
+api.add_resource(UserRegistration, '/api/v1/auth/register')
 api.add_resource(QuestionList, '/api/v1/questions', endpoint='questions')
 api.add_resource(Question, '/api/v1/questions/<int:id>', endpoint='question')
 if __name__ == '__main__':
