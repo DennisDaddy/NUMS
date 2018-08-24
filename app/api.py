@@ -53,6 +53,24 @@ class Question(Resource):
             return jsonify({'message': 'Question not found!'})
         return jsonify(result)
 
+    def put(self, id):
+        """This is a method for modifying a question using PUT request"""
+        cur.execute("SELECT * FROM questions WHERE ID= %s", (id,))
+        question = cur.fetchone()
+        
+        title = request.get_json()['title']
+        content = request.get_json()['content']       
+
+        if question is not None:
+            cur.execute("UPDATE questions SET title=%s, content=%s WHERE id=%s", (title, content, id))            
+        else:
+            return jsonify({'message': 'Not complete no entry!'})
+        conn.commit()
+        return jsonify({'message': 'Entry successfuly Updated'})
+
+        
+        
+
 
     
 api.add_resource(Home, '/')
