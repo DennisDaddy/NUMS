@@ -114,11 +114,22 @@ class UserLogin(Resource):
             return jsonify({'message': 'You are successfully logged in!'})
     conn.commit()
 
+class UserInfo(Resource):
+    """This is a class for retrieving user information"""
+    def get(self, user_id):
+        """This is a method for retrieving user information"""
+        cur.execute("SELECT * FROM users WHERE ID = %s", (user_id,))
+        info = cur.fetchone()
+        if info is None:
+            return jsonify({'messsage': 'That user is not Available'})
+        return jsonify(info)
+
 
     
 api.add_resource(Home, '/')
 api.add_resource(UserRegistration, '/api/v1/auth/register')
 api.add_resource(UserLogin, '/api/v1/auth/login')
+api.add_resource(UserInfo, '/api/v1/users/<int:user_id>')
 api.add_resource(QuestionList, '/api/v1/questions', endpoint='questions')
 api.add_resource(Question, '/api/v1/questions/<int:id>', endpoint='question')
 if __name__ == '__main__':
