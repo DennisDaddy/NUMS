@@ -73,13 +73,10 @@ class Question(Resource):
         try:
             cur.execute("DELETE FROM questions WHERE ID = %s", (id,))
             conn.commit()
-
         except:
             return jsonify({'message': 'Cant retrieve question'})
-
         finally: 
             conn.close()
-
         return jsonify({'message': 'successfully deleted'})
 
 
