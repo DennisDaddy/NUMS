@@ -99,10 +99,26 @@ class UserRegistration(Resource):
         conn.commit()
         return jsonify({'message': 'You are successfully registered!'})
 
+class UserLogin(Resource):
+    """This is a class for logging in a user"""
+    def post(self):
+        username = request.get_json()['username']
+        password = request.get_json()['password']
+
+        cur.execute("SELECT * FROM users WHERE username LIKE '"+username+"'\
+        AND password LIKE '"+password+"'")
+        rows = cur.fetchone()
+        if rows is None:
+            return jsonify({'message': 'Not successful you can try again'})
+        else:
+            return jsonify({'message': 'You are successfully logged in!'})
+    conn.commit()
+
 
     
 api.add_resource(Home, '/')
 api.add_resource(UserRegistration, '/api/v1/auth/register')
+api.add_resource(UserLogin, '/api/v1/auth/login')
 api.add_resource(QuestionList, '/api/v1/questions', endpoint='questions')
 api.add_resource(Question, '/api/v1/questions/<int:id>', endpoint='question')
 if __name__ == '__main__':
