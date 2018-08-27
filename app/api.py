@@ -125,7 +125,14 @@ class Answer(Resource):
     
     def delete(self, id):
         """This is a method for deleting an answer for a question"""
-        pass
+        try:
+            cur.execute("DELETE FROM answers WHERE ID = %s", (id,))
+            conn.commit()
+        except:
+            return jsonify({'message': 'Cant retrieve answer!'})
+        finally: 
+            conn.close()
+        return jsonify({'message': 'Answer successfully deleted!'})
 
 
 class UserRegistration(Resource):
