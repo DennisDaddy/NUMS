@@ -111,7 +111,17 @@ class Answer(Resource):
     
     def put(self, id):
         """This is a method for modifying an answer for a question"""
-        pass
+        cur.execute("SELECT * FROM answers WHERE ID= %s", (id,))
+        answer = cur.fetchone()
+        
+        body = request.get_json()['body']     
+
+        if answer is not None:
+            cur.execute("UPDATE answers SET body=%s WHERE id=%s", (body, id))            
+        else:
+            return jsonify({'message': 'Not complete no answer!'})
+        conn.commit()
+        return jsonify({'message': 'Answer successfuly Updated'})
     
     def delete(self, id):
         """This is a method for deleting an answer for a question"""
