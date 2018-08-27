@@ -84,7 +84,13 @@ class  AnswerList(Resource):
     """This is a class for answers without IDs"""
     def get(self):
         """This is a method for retrieving answers for a question """
-        pass
+        cur.execute("SELECT * FROM answers")
+        answers = cur.fetchall()
+        if answers is None:
+            return jsonify({'message': 'No answers found'})
+        else:
+            return jsonify(answers)
+        conn.commit()
 
 
     def post(self):
