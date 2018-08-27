@@ -79,6 +79,39 @@ class Question(Resource):
             conn.close()
         return jsonify({'message': 'Question successfully deleted!'})
 
+
+class  AnswerList(Resource):
+    """This is a class for answers without IDs"""
+    def get(self):
+        """This is a method for retrieving answers for a question """
+        pass
+
+
+    def post(self):
+        """This is a method for creating an answer for a question"""
+        body = request.get_json()['body']
+
+        if len(body) ==0:
+            return jsonify({'message': 'Fill in the body'})
+        cur.execute("INSERT INTO answers (body) VALUES('"+body+"');")
+        conn.commit()
+        return jsonify({'message': 'Answer successfully created!'})
+
+class Answer(Resource):
+    """This is a class for answers with IDs"""
+    def get(self,id):
+        """This is a method for getting an answer for a given  question"""
+        pass
+    
+    def put(self, id):
+        """This is a method for modifying an answer for a question"""
+        pass
+    
+    def delete(self, id):
+        """This is a method for deleting an answer for a question"""
+        pass
+
+
 class UserRegistration(Resource):
     def post(self):
         username = request.get_json()['username']
@@ -129,5 +162,7 @@ api.add_resource(UserLogin, '/api/v1/auth/login')
 api.add_resource(UserInfo, '/api/v1/users/<int:user_id>')
 api.add_resource(QuestionList, '/api/v1/questions', endpoint='questions')
 api.add_resource(Question, '/api/v1/questions/<int:id>', endpoint='question')
+api.add_resource(AnswerList, '/api/v1/answers', endpoint='answers')
+api.add_resource(Answer, '/api/v1/answers/<int:id>', endpoint='answer')
 if __name__ == '__main__':
     app.run(debug=True)
