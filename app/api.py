@@ -107,7 +107,12 @@ class Answer(Resource):
     """This is a class for answers with IDs"""
     def get(self,id):
         """This is a method for getting an answer for a given  question"""
-        pass
+        cur.execute("SELECT * FROM answers WHERE ID= %s", (id,))
+        result = cur.fetchone()
+        if result is None:
+            return jsonify({'message': 'Answer not found!'})
+        return jsonify(result)
+
     
     def put(self, id):
         """This is a method for modifying an answer for a question"""
