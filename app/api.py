@@ -158,6 +158,15 @@ class CommentList(Resource):
         conn.commit()
         return jsonify({'message': 'Comment successfully created!'})
 
+class Comment(Resource):
+    """This is a class for comments with IDs"""
+    def get(self,id):
+        """This is a method for getting a comment using GET request"""
+        cur.execute("SELECT * FROM comments WHERE ID= %s", (id,))
+        result = cur.fetchone()
+        if result is None:
+            return jsonify({'message': 'Comment not found!'})
+        return jsonify(result)
 
 
 class UserRegistration(Resource):
@@ -226,6 +235,6 @@ api.add_resource(Question, '/api/v1/questions/<int:id>', endpoint='question')
 api.add_resource(AnswerList, '/api/v1/answers', endpoint='answers')
 api.add_resource(Answer, '/api/v1/answers/<int:id>', endpoint='answer')
 api.add_resource(CommentList, '/api/v1/comments', endpoint='comments')
-# api.add_resource(Comment, '/api/v1/comments/<int:id>', endpoint='comments')
+api.add_resource(Comment, '/api/v1/comments/<int:id>', endpoint='comment')
 if __name__ == '__main__':
     app.run(debug=True)
