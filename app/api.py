@@ -181,6 +181,17 @@ class Comment(Resource):
             return jsonify({'message': 'Not complete, no comment!'})
         conn.commit()
         return jsonify({'message': 'Comment successfuly Updated'})
+    
+    def delete(self, id):
+        """This is a method for deleting a comment using DELETE request"""
+        try:
+            cur.execute("DELETE FROM comments WHERE ID = %s", (id,))
+            conn.commit()
+        except:
+            return jsonify({'message': 'Cant retrieve the comment!'})
+        finally: 
+            conn.close()
+        return jsonify({'message': 'Comment successfully deleted!'})
 
 
 class UserRegistration(Resource):
