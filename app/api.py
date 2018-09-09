@@ -43,6 +43,7 @@ class QuestionList(Resource):
         
         if len(content) >200:
             return jsonify({'message': 'Failed! content cannot be greater than 200 characters'})
+
         cur.execute("INSERT INTO questions (title, content) VALUES('"+title+"','"+content+"');")
         conn.commit()
         return jsonify({'message': 'Question successfully created!'})
