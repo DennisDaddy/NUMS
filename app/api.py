@@ -207,7 +207,7 @@ class UserInfo(Resource):
 api.add_resource(Home, '/api/v1')
 api.add_resource(UserRegistration, '/api/v1/auth/register')
 api.add_resource(UserLogin, '/api/v1/auth/login')
-api.add_resource(UserInfo, '/api/v1/users/<int:user_id>')
+api.add_resource(UserInfo, '/api/v1/account/<int:user_id>')
 api.add_resource(QuestionList, '/api/v1/questions', endpoint='questions')
 api.add_resource(Question, '/api/v1/questions/<int:id>', endpoint='question')
 api.add_resource(AnswerList, '/api/v1/answers', endpoint='answers')
