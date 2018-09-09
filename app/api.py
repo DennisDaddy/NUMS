@@ -261,5 +261,6 @@ api.add_resource(AnswerList, '/api/v1/answers', endpoint='answers')
 api.add_resource(Answer, '/api/v1/answers/<int:id>', endpoint='answer')
 api.add_resource(CommentList, '/api/v1/comments', endpoint='comments')
 api.add_resource(Comment, '/api/v1/comments/<int:id>', endpoint='comment')
+
 if __name__ == '__main__':
     app.run(debug=True)
