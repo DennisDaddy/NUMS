@@ -89,7 +89,7 @@ class Question(Resource):
 class  AnswerList(Resource):
     """This is a class for answers without IDs"""
     def get(self):
-        """This is a method for retrieving answers for a question using GET request """
+        """This is a method for retrieving an answers using GET request """
         cur.execute("SELECT * FROM answers")
         answers = cur.fetchall()
         if answers is None:
@@ -100,7 +100,7 @@ class  AnswerList(Resource):
 
 
     def post(self):
-        """This is a method for creating an answer for a question using POST request"""
+        """This is a method for creating an answer using POST request"""
         body = request.get_json()['body']
 
         if len(body)==0:
@@ -112,7 +112,7 @@ class  AnswerList(Resource):
 class Answer(Resource):
     """This is a class for answers with IDs"""
     def get(self,id):
-        """This is a method for getting an answer for a given  question using GET request"""
+        """This is a method for getting an answer using GET request"""
         cur.execute("SELECT * FROM answers WHERE ID= %s", (id,))
         result = cur.fetchone()
         if result is None:
@@ -121,7 +121,7 @@ class Answer(Resource):
 
 
     def put(self, id):
-        """This is a method for modifying an answer for a question using PUT request"""
+        """This is a method for modifying an answer using PUT request"""
         cur.execute("SELECT * FROM answers WHERE ID= %s", (id,))
         answer = cur.fetchone()
 
@@ -144,6 +144,20 @@ class Answer(Resource):
         finally: 
             conn.close()
         return jsonify({'message': 'Answer successfully deleted!'})
+
+
+class CommentList(Resource):
+    """This is a class for retrieving comments without IDs"""
+    def post(self):
+        """This is a method for creating a comment using POST request"""
+        body = request.get_json()['body']
+
+        if len(body)==0:
+            return jsonify({'message': 'Fill in the comment body'})
+        cur.execute("INSERT INTO comments (body) VALUES('"+body+"');")
+        conn.commit()
+        return jsonify({'message': 'Comment successfully created!'})
+
 
 
 class UserRegistration(Resource):
@@ -203,7 +217,6 @@ class UserInfo(Resource):
         return jsonify(info)
 
 
-    
 api.add_resource(Home, '/api/v1')
 api.add_resource(UserRegistration, '/api/v1/auth/register')
 api.add_resource(UserLogin, '/api/v1/auth/login')
@@ -212,5 +225,7 @@ api.add_resource(QuestionList, '/api/v1/questions', endpoint='questions')
 api.add_resource(Question, '/api/v1/questions/<int:id>', endpoint='question')
 api.add_resource(AnswerList, '/api/v1/answers', endpoint='answers')
 api.add_resource(Answer, '/api/v1/answers/<int:id>', endpoint='answer')
+api.add_resource(CommentList, '/api/v1/comments', endpoint='comments')
+# api.add_resource(Comment, '/api/v1/comments/<int:id>', endpoint='comments')
 if __name__ == '__main__':
     app.run(debug=True)
