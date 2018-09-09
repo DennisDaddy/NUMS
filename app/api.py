@@ -20,17 +20,13 @@ class QuestionList(Resource):
     """This is a class for questions without IDs"""
     def get(self):
         """This is a method for retrieving a list of questions using GET request"""
-        my_list = []
-        try:
-            cur.execute("SELECT * FROM questions")
-            rows = cur.fetchall()
-            for row in rows:
-                my_list.append(row[0])
-                my_list.append(row[1])
-                my_list.append(row[2])
-        except:
-            return jsonify({'message': 'Cannot retrieve entries'})
-        return jsonify(my_list)
+        cur.execute("SELECT * FROM questions")
+        questions = cur.fetchall()
+        if questions is None:
+            return jsonify({"messge": "No questions found!"})
+        else:
+            return jsonify(questions)
+        conn.commit()
 
     def post(self):
         """This is a method for creating a question using POST request"""
@@ -39,8 +35,14 @@ class QuestionList(Resource):
 
         if len(title)==0:
             return jsonify({'message': 'Fill in the title'})
+        if len(title) >50:
+            return jsonify({'message': 'Failed! title cannot be greater than 50 characters'})
+
         if len(content)==0:
             return jsonify({'message': 'Fill in the content'})
+        
+        if len(content) >200:
+            return jsonify({'message': 'Failed! content cannot be greater than 200 characters'})
         cur.execute("INSERT INTO questions (title, content) VALUES('"+title+"','"+content+"');")
         conn.commit()
         return jsonify({'message': 'Question successfully created!'})
