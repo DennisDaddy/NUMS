@@ -168,6 +168,20 @@ class Comment(Resource):
             return jsonify({'message': 'Comment not found!'})
         return jsonify(result)
 
+    def put(self, id):
+        """This is a method for modifying a comment using PUT request"""
+        cur.execute("SELECT * FROM comments WHERE ID= %s", (id,))
+        comment = cur.fetchone()
+
+        body = request.get_json()['body']     
+
+        if comment is not None:
+            cur.execute("UPDATE comments SET body=%s WHERE id=%s", (body, id))            
+        else:
+            return jsonify({'message': 'Not complete, no comment!'})
+        conn.commit()
+        return jsonify({'message': 'Comment successfuly Updated'})
+
 
 class UserRegistration(Resource):
     """This is a class for registering new users"""
