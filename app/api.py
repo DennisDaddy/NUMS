@@ -145,13 +145,24 @@ class Answer(Resource):
 
 
 class UserRegistration(Resource):
-    """This a class for registering a user"""
+    """This is a class for registering new users"""
     def post(self):
         """This a method for registering a user using POST request """
         username = request.get_json()['username']
         email = request.get_json()['email']
         password = request.get_json()['password']
         password_confirmation = request.get_json()['password_confirmation']
+
+        if not username or len(username.strip()) ==0:
+            return jsonify({"message": "Username cannot be blank!"})
+        elif not email:
+            return jsonify({"message": "Email cannot be blank!"})
+        elif not password:
+            return jsonify({"message": "Password cannot be blank!"})
+        elif password != password_confirmation:
+            return jsonify({"message": "Password does not match!"})
+        elif len(password) < 5:
+            return jsonify({"message": "Password cannot be less than 5 characters!"})
         
         cur.execute("SELECT * FROM users WHERE username LIKE '"+username+"'")
         user = cur.fetchone()
@@ -159,23 +170,24 @@ class UserRegistration(Resource):
             cur.execute("INSERT INTO users (username, email, password, password_confirmation)\
             VALUES('"+username+"', '"+email+"', '"+password+"', '"+password_confirmation+"');")
         else:
-            return jsonify({'message': 'user already exists'})
+            return jsonify({'message': 'User already exists'})
         conn.commit()
         return jsonify({'message': 'You are successfully registered!'})
 
 class UserLogin(Resource):
     """This is a class for logging in a user"""
     def post(self):
-        """This is a method for logging in a user"""
+        """This method checks if a user exists in database, checks if username and password matches
+        the one in the database then logs in the user using POST request"""
         username = request.get_json()['username']
         password = request.get_json()['password']
 
         cur.execute("SELECT * FROM users WHERE username LIKE '"+username+"'\
         AND password LIKE '"+password+"'")
-        rows = cur.fetchone()
-        if rows is None:
-            return jsonify({'message': 'Not successful you can try again'})
-        return jsonify({'message': 'You are successfully logged in!'})
+        user = cur.fetchone()
+        if not user:
+            return jsonify({'message': 'Invalid username/password combination, try again'})
+        return jsonify({'message': 'Login successful!'})
     conn.commit()
 
 class UserInfo(Resource):
@@ -190,7 +202,7 @@ class UserInfo(Resource):
 
 
     
-api.add_resource(Home, '/')
+api.add_resource(Home, '/api/v1')
 api.add_resource(UserRegistration, '/api/v1/auth/register')
 api.add_resource(UserLogin, '/api/v1/auth/login')
 api.add_resource(UserInfo, '/api/v1/users/<int:user_id>')
