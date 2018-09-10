@@ -19,7 +19,7 @@ class QuestionTestCase(unittest.TestCase):
 	def test_home(self):
 		"""This method tests root endpoint"""
 		tester = app.test_client(self)
-		response = tester.get('/', content_type='application/json')
+		response = tester.get('/api/v1', content_type='application/json')
 		self.assertEqual(response.status_code, 200)
 		self.assertIn(b'Welcome to Stackoverflow-lite', response.data)
 

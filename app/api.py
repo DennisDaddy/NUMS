@@ -2,11 +2,11 @@ from flask import Flask, jsonify, request, make_response
 import sys
 from flask_restful import Resource, Api
 
-from flask_cors import CORS
+# from flask_cors import CORS
 from app.models import *
 
 app = Flask(__name__)
-CORS(app)
+# CORS(app)
 api = Api(app)
 
 
@@ -43,6 +43,7 @@ class QuestionList(Resource):
         
         if len(content) >200:
             return jsonify({'message': 'Failed! content cannot be greater than 200 characters'})
+
         cur.execute("INSERT INTO questions (title, content) VALUES('"+title+"','"+content+"');")
         conn.commit()
         return jsonify({'message': 'Question successfully created!'})
@@ -89,7 +90,7 @@ class Question(Resource):
 class  AnswerList(Resource):
     """This is a class for answers without IDs"""
     def get(self):
-        """This is a method for retrieving answers for a question using GET request """
+        """This is a method for retrieving an answers using GET request """
         cur.execute("SELECT * FROM answers")
         answers = cur.fetchall()
         if answers is None:
@@ -100,7 +101,7 @@ class  AnswerList(Resource):
 
 
     def post(self):
-        """This is a method for creating an answer for a question using POST request"""
+        """This is a method for creating an answer using POST request"""
         body = request.get_json()['body']
 
         if len(body)==0:
@@ -112,7 +113,7 @@ class  AnswerList(Resource):
 class Answer(Resource):
     """This is a class for answers with IDs"""
     def get(self,id):
-        """This is a method for getting an answer for a given  question using GET request"""
+        """This is a method for getting an answer using GET request"""
         cur.execute("SELECT * FROM answers WHERE ID= %s", (id,))
         result = cur.fetchone()
         if result is None:
@@ -121,7 +122,7 @@ class Answer(Resource):
 
 
     def put(self, id):
-        """This is a method for modifying an answer for a question using PUT request"""
+        """This is a method for modifying an answer using PUT request"""
         cur.execute("SELECT * FROM answers WHERE ID= %s", (id,))
         answer = cur.fetchone()
 
@@ -144,6 +145,57 @@ class Answer(Resource):
         finally: 
             conn.close()
         return jsonify({'message': 'Answer successfully deleted!'})
+
+
+class CommentList(Resource):
+    """This is a class for retrieving comments without IDs"""
+
+    def post(self):
+        """This is a method for creating a comment using POST request"""
+
+        body = request.get_json()['body']
+        if len(body)==0:
+            return jsonify({'message': 'Fill in the comment body'})
+        cur.execute("INSERT INTO comments (body) VALUES('"+body+"');")
+        conn.commit()
+        return jsonify({'message': 'Comment successfully created!'})
+
+class Comment(Resource):
+    """This is a class for comments with IDs"""
+
+    def get(self,id):
+        """This is a method for getting a comment information using GET request"""
+
+        cur.execute("SELECT * FROM comments WHERE ID= %s", (id,))
+        result = cur.fetchone()
+        if result is None:
+            return jsonify({'message': 'Comment not found!'})
+        return jsonify(result)
+
+    def put(self, id):
+        """This is a method for modifying a comment using PUT request"""
+
+        cur.execute("SELECT * FROM comments WHERE ID= %s", (id,))
+        comment = cur.fetchone()
+        body = request.get_json()['body']     
+
+        if comment is not None:
+            cur.execute("UPDATE comments SET body=%s WHERE id=%s", (body, id))            
+        else:
+            return jsonify({'message': 'Not complete, no comment!'})
+        conn.commit()
+        return jsonify({'message': 'Comment successfuly Updated'})
+    
+    def delete(self, id):
+        """This is a method for deleting a comment using DELETE request"""
+        try:
+            cur.execute("DELETE FROM comments WHERE ID = %s", (id,))
+            conn.commit()
+        except:
+            return jsonify({'message': 'Cant retrieve the comment!'})
+        finally: 
+            conn.close()
+        return jsonify({'message': 'Comment successfully deleted'})
 
 
 class UserRegistration(Resource):
@@ -211,6 +263,11 @@ api.add_resource(QuestionList, '/api/v1/questions', endpoint='questions')
 api.add_resource(Question, '/api/v1/questions/<int:id>', endpoint='question')
 api.add_resource(AnswerList, '/api/v1/answers', endpoint='answers')
 api.add_resource(Answer, '/api/v1/answers/<int:id>', endpoint='answer')
+
+api.add_resource(CommentList, '/api/v1/comments', endpoint='comments')
+api.add_resource(Comment, '/api/v1/comments/<int:id>', endpoint='comment')
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
