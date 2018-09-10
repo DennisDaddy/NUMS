@@ -44,3 +44,6 @@ class UserTeastCase(unittest.TestCase):
         """This is a method for testing user account information"""
         response = self.client.get('/api/v1/account/1')
         self.assertEqual(response.status_code, 200)
+
+if __name__=='__main__':
+    unittest.main()
