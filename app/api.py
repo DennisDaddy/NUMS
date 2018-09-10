@@ -154,7 +154,6 @@ class CommentList(Resource):
         """This is a method for creating a comment using POST request"""
 
         body = request.get_json()['body']
-
         if len(body)==0:
             return jsonify({'message': 'Fill in the comment body'})
         cur.execute("INSERT INTO comments (body) VALUES('"+body+"');")
