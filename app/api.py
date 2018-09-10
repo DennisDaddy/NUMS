@@ -24,6 +24,8 @@ class Home(Resource):
 
 class QuestionList(Resource):
     """This is a class for questions without IDs"""
+
+    @jwt_required
     def get(self):
         """This is a method for retrieving a list of questions using GET request"""
         cur.execute("SELECT * FROM questions")
@@ -58,6 +60,7 @@ class QuestionList(Resource):
 class Question(Resource):
     """This is a class for questions with IDs"""
 
+    @jwt_required
     def get(self, id):
         """This is a method for retrieving question using GET request"""
         cur.execute("SELECT * FROM questions WHERE ID= %s", (id,))
@@ -95,6 +98,8 @@ class Question(Resource):
 
 class  AnswerList(Resource):
     """This is a class for answers without IDs"""
+
+    @jwt_required
     def get(self):
         """This is a method for retrieving an answers using GET request """
         cur.execute("SELECT * FROM answers")
@@ -118,6 +123,8 @@ class  AnswerList(Resource):
 
 class Answer(Resource):
     """This is a class for answers with IDs"""
+
+    @jwt_required
     def get(self,id):
         """This is a method for getting an answer using GET request"""
         cur.execute("SELECT * FROM answers WHERE ID= %s", (id,))
@@ -155,7 +162,7 @@ class Answer(Resource):
 
 class CommentList(Resource):
     """This is a class for retrieving comments without IDs"""
-
+    @jwt_required
     def post(self):
         """This is a method for creating a comment using POST request"""
 
@@ -168,7 +175,7 @@ class CommentList(Resource):
 
 class Comment(Resource):
     """This is a class for comments with IDs"""
-
+    @jwt_required
     def get(self,id):
         """This is a method for getting a comment information using GET request"""
 
@@ -206,6 +213,8 @@ class Comment(Resource):
 
 class UserRegistration(Resource):
     """This is a class for registering new users"""
+
+
     def post(self):
         """This a method for registering a user using POST request """
         username = request.get_json()['username']
@@ -236,6 +245,7 @@ class UserRegistration(Resource):
 
 class UserLogin(Resource):
     """This is a class for logging in a user"""
+
     def post(self):
         """This method checks if a user exists in database, checks if username and password matches
         the one in the database then logs in the user using POST request"""
@@ -248,13 +258,14 @@ class UserLogin(Resource):
         if not user:
             return jsonify({'message': 'Invalid username/password combination, try again'})
         return jsonify({'message': 'Login successful!'})
-        
+
         access_token = create_access_token(identity=username)
         return jsonify(access_token=access_token)
     conn.commit()
 
 class UserInfo(Resource):
     """This is a class for retrieving user information"""
+    @jwt_required
     def get(self, user_id):
         """This is a method for retrieving user information"""
         cur.execute("SELECT * FROM users WHERE ID = %s", (user_id,))
