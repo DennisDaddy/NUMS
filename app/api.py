@@ -163,8 +163,10 @@ class CommentList(Resource):
 
 class Comment(Resource):
     """This is a class for comments with IDs"""
+
     def get(self,id):
         """This is a method for getting a comment using GET request"""
+        
         cur.execute("SELECT * FROM comments WHERE ID= %s", (id,))
         result = cur.fetchone()
         if result is None:
