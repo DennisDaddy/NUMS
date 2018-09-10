@@ -1,4 +1,8 @@
 from flask import Flask, jsonify, request, make_response
+from flask_jwt_extended import (
+    JWTManager, jwt_required, create_access_token,
+    get_jwt_identity
+)
 import sys
 from flask_restful import Resource, Api
 
@@ -8,6 +12,8 @@ from app.models import *
 app = Flask(__name__)
 # CORS(app)
 api = Api(app)
+app.config['JWT_SECRET_KEY'] = '5c750c0e72ce5394dfe7720fa26d0327d616ff9ff869be19'  
+jwt = JWTManager(app)
 
 
 class Home(Resource):
@@ -242,6 +248,9 @@ class UserLogin(Resource):
         if not user:
             return jsonify({'message': 'Invalid username/password combination, try again'})
         return jsonify({'message': 'Login successful!'})
+        
+        access_token = create_access_token(identity=username)
+        return jsonify(access_token=access_token)
     conn.commit()
 
 class UserInfo(Resource):
