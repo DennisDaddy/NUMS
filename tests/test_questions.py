@@ -29,11 +29,21 @@ class QuestionTestCase(unittest.TestCase):
 		self.assertEqual(response.status_code, 400)
 	
 	
-	def test_retrieve_question(self):
-		"""Test retrieve single question"""
+	def test_retrieve_all_questions(self):
+		"""Test retrieving questions"""
 		response = self.client().get('/api/v1/questions')
 		self.assertEqual(response.status_code, 200)
+	
+	def test_retrieve_single_question(self):
+		pass
 
+	def test_modify_question(self):
+		"""This method tests endpoint for updating a question"""
+		response = self.client().get('api/v1/questions/1')
+		self.assertEqual(response.status_code, 200)
+	
+	def test_delete_question(self):
+		pass
 
 if __name__ == '__main__':
     unittest.main()
