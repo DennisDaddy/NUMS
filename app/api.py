@@ -203,7 +203,6 @@ class UserInfo(Resource):
         return jsonify(info)
 
 
-    
 api.add_resource(Home, '/api/v1')
 api.add_resource(UserRegistration, '/api/v1/auth/register')
 api.add_resource(UserLogin, '/api/v1/auth/login')
@@ -212,5 +211,6 @@ api.add_resource(QuestionList, '/api/v1/questions', endpoint='questions')
 api.add_resource(Question, '/api/v1/questions/<int:id>', endpoint='question')
 api.add_resource(AnswerList, '/api/v1/answers', endpoint='answers')
 api.add_resource(Answer, '/api/v1/answers/<int:id>', endpoint='answer')
+
 if __name__ == '__main__':
     app.run(debug=True)
