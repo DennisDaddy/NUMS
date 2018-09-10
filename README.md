@@ -1,4 +1,7 @@
 # StackOverflow-Lite
+[![Build Status](https://travis-ci.com/DennisDaddy/NUMS.svg?branch=master)](https://travis-ci.com/DennisDaddy/NUMS)
+
+
 
 StackOverflow-lite​ is a platform where people can ask questions and provide responses.
 
