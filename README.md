@@ -1,5 +1,6 @@
 # StackOverflow-Lite
 [![Build Status](https://travis-ci.com/DennisDaddy/NUMS.svg?branch=challenge-one)](https://travis-ci.com/DennisDaddy/NUMS)
+[![Maintainability](https://api.codeclimate.com/v1/badges/1aa0531c0fafdbfc3e8a/maintainability)](https://codeclimate.com/github/DennisDaddy/NUMS/maintainability)
 
 
 
