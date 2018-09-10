@@ -149,8 +149,10 @@ class Answer(Resource):
 
 class CommentList(Resource):
     """This is a class for retrieving comments without IDs"""
+
     def post(self):
         """This is a method for creating a comment using POST request"""
+
         body = request.get_json()['body']
 
         if len(body)==0:
