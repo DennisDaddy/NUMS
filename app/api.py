@@ -166,7 +166,7 @@ class Comment(Resource):
 
     def get(self,id):
         """This is a method for getting a comment using GET request"""
-        
+
         cur.execute("SELECT * FROM comments WHERE ID= %s", (id,))
         result = cur.fetchone()
         if result is None:
@@ -175,6 +175,7 @@ class Comment(Resource):
 
     def put(self, id):
         """This is a method for modifying a comment using PUT request"""
+        
         cur.execute("SELECT * FROM comments WHERE ID= %s", (id,))
         comment = cur.fetchone()
 
