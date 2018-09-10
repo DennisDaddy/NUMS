@@ -196,7 +196,7 @@ class Comment(Resource):
             return jsonify({'message': 'Cant retrieve the comment!'})
         finally: 
             conn.close()
-        return jsonify({'message': 'Comment successfully deleted!'})
+        return jsonify({'message': 'Comment successfully deleted'})
 
 
 class UserRegistration(Resource):
