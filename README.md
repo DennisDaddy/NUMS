@@ -1,5 +1,5 @@
 # StackOverflow-Lite
-[![Build Status](https://travis-ci.com/DennisDaddy/NUMS.svg?branch=master)](https://travis-ci.com/DennisDaddy/NUMS)
+[![Build Status](https://travis-ci.com/DennisDaddy/NUMS.svg?branch=challenge-one)](https://travis-ci.com/DennisDaddy/NUMS)
 
 
 
