@@ -30,8 +30,12 @@ class UserTeastCase(unittest.TestCase):
             dict(username="dennis", email="dennis@gmail.com", password="foobar",
             password_confirmation="foobar")),
             content_type="application/json")
-        self.assertEqual(response.status_code, 200)
-    
+        self.assertEqual(response.status_code, 200)    
 
     def test_user_login(self):
-        pass
+        """This is a method for testing user registration"""
+        response = self.client.post('/api/v1/auth/login', data=json.dumps(
+            dict(username="dennis", email="dennis@gmail.com", password="foobar",
+            password_confirmation="foobar")),
+            content_type="application/json")
+        self.assertEqual(response.status_code, 200)
