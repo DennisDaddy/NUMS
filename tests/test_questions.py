@@ -24,11 +24,28 @@ class QuestionTestCase(unittest.TestCase):
 		self.assertIn(b'Welcome to Stackoverflow-lite', response.data)
 
 	def test_create_question(self):
-		tester = app.test_client(self)
-		response = tester.get('/api/v1/questions', content_type='application/json')
+		"""This method tests endpoint for creating a question"""
+		response = self.client().post('/api/v1/questions', content_type='application/json')
+		self.assertEqual(response.status_code, 400)
+	
+	
+	def test_retrieve_all_questions(self):
+		"""Test retrieving questions"""
+		response = self.client().get('/api/v1/questions')
 		self.assertEqual(response.status_code, 200)
-		self.assertIn(b'Question successfully created!', response.data)
+	
+	def test_retrieve_single_question(self):
+		pass
 
+	def test_modify_question(self):
+		"""This method tests endpoint for updating a question"""
+		response = self.client().get('api/v1/questions/1')
+		self.assertEqual(response.status_code, 200)
+	
+	def test_delete_question(self):
+		"""This method tests endpoint for delete a question"""
+		response = self.client().get('api/v1/questions/1')
+		self.assertEqual(response.status_code, 200)
 
 if __name__ == '__main__':
     unittest.main()
