@@ -43,7 +43,9 @@ class QuestionTestCase(unittest.TestCase):
 		self.assertEqual(response.status_code, 200)
 	
 	def test_delete_question(self):
-		pass
+		"""This method tests endpoint for delete a question"""
+		response = self.client().get('api/v1/questions/1')
+		self.assertEqual(response.status_code, 200)
 
 if __name__ == '__main__':
     unittest.main()
