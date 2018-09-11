@@ -90,3 +90,23 @@ $ python app.py
 **`PUT /api/v1/questions/<question_id>`** *Update question details*
 
 **`DELETE /api/v1/questions/<question_id>`** *Delete question*
+
+**`GET /api/v1/answers`** *Get all the answers*
+
+**`GET /api/v1/answers/<answer_id>`** *Get single answer*
+
+**`POST /api/v1/answers`** *Create new answer*
+
+**`PUT /api/v1/answers/<answer_id>`** *Update answer details*
+
+**`DELETE /api/v1/answers/<answer_id>`** *Delete answer*
+
+**`GET /api/v1/comments`** *Get all the comments*
+
+**`GET /api/v1/comments/<comment_id>`** *Get single comment*
+
+**`POST /api/v1/comments`** *Create new comment*
+
+**`PUT /api/v1/comments/<comment_id>`** *Update comment details*
+
+**`DELETE /api/v1/comments/<comment_id>`** *Delete comment*
