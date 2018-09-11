@@ -36,6 +36,7 @@ class QuestionList(Resource):
             return jsonify(questions)
         conn.commit()
 
+    @jwt_required
     def post(self):
         """This is a method for creating a question using POST request"""
         title = request.get_json()['title']
@@ -69,6 +70,7 @@ class Question(Resource):
             return jsonify({'message': 'Question not found!'})
         return jsonify(result)
 
+    @jwt_required
     def put(self, id):
         """This is a method for modifying a question using PUT request"""
         cur.execute("SELECT * FROM questions WHERE ID= %s", (id,))
@@ -84,6 +86,7 @@ class Question(Resource):
         conn.commit()
         return jsonify({'message': 'Question successfuly Updated'})
     
+    @jwt_required
     def delete(self, id):
         """This is a method for deleting a question using DELETE request"""
         try:
@@ -110,7 +113,7 @@ class  AnswerList(Resource):
             return jsonify(answers)
         conn.commit()
 
-
+    @jwt_required
     def post(self):
         """This is a method for creating an answer using POST request"""
         body = request.get_json()['body']
@@ -133,7 +136,7 @@ class Answer(Resource):
             return jsonify({'message': 'Answer not found!'})
         return jsonify(result)
 
-
+    @jwt_required
     def put(self, id):
         """This is a method for modifying an answer using PUT request"""
         cur.execute("SELECT * FROM answers WHERE ID= %s", (id,))
@@ -147,7 +150,7 @@ class Answer(Resource):
             return jsonify({'message': 'Not complete no answer!'})
         conn.commit()
         return jsonify({'message': 'Answer successfuly Updated'})
-    
+    @jwt_required
     def delete(self, id):
         """This is a method for deleting an answer for a question using DELETE request"""
         try:
@@ -184,7 +187,7 @@ class Comment(Resource):
         if result is None:
             return jsonify({'message': 'Comment not found!'})
         return jsonify(result)
-
+    @jwt_required
     def put(self, id):
         """This is a method for modifying a comment using PUT request"""
 
@@ -198,7 +201,7 @@ class Comment(Resource):
             return jsonify({'message': 'Not complete, no comment!'})
         conn.commit()
         return jsonify({'message': 'Comment successfuly Updated'})
-    
+    @jwt_required
     def delete(self, id):
         """This is a method for deleting a comment using DELETE request"""
         try:
