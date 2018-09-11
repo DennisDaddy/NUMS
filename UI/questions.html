@@ -4,8 +4,9 @@
 	<title>Questions |StackOverflow-lite</title>
 	<meta name="Viewport" content="width=device-width, initial-scale=1" charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	<!-- <script src="js/questions.js"></script>	 -->
 </head>
-<body>
+<body onload="getQuestions()">
 
 	<!-- Navbar -->
 	<div class="navbar">
@@ -26,8 +27,11 @@
 		<div class="row">
 			<div class="column">
 				<h3 align="center">This is title one</h3>
-				<i>12 Aug, 2018</i>
-				<p>StackOverflow-lite​ is a platform where people can ask questions.StackOverflow-lite​ is a platform where people can ask questions and provide responses.StackOverflow-lite​ is a platform where people can ask questions and provide <a href="question.html">View More..</a></p><hr>
+				<button id="getPosts">Get API DATA</button>
+				<div id="output"></div>
+				<br>
+				<br>
+				<!-- <p>StackOverflow-lite​ is a platform where people can ask questions.StackOverflow-lite​ is a platform where people can ask questions and provide responses.StackOverflow-lite​ is a platform where people can ask questions and provide <a href="question.html">View More..</a></p><hr> -->
 
 				<h3 align="center">This is title two</h3>
 				<i>12 Aug, 2018</i>
@@ -51,6 +55,38 @@
 				<i>12 Aug, 2018</i>
 				<p>StackOverflow-lite​ is a platform where people can ask questions.StackOverflow-lite​ is a platform where people can ask questions and provide responses.StackOverflow-lite​ is a platform where people can ask questions and provide <a href="question.html">View More..</a></p><hr>
 			</div>
+
+			<script>
+				document.getElementById('getPosts').addEventListener('click', getPosts);
+				function getPosts() {
+			fetch('https://gully.herokuapp.com/api/v1/questions',
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json"
+				}
+			})
+			.then((res) => res.json())
+			.then((data) => {
+				data = data["data"];
+				let output = '<h2>questions</h2>';
+				Object.keys(data).forEach(function(question){
+					let title = data[question]["title"];
+					output += `
+					<div>
+					<h3>${data[question]["title"]}</h3>
+					
+							
+					</div>
+					`;
+				});
+				
+				document.getElementById('output').innerHTML = output;
+
+			})
+		}
+		
+			</script>
 			
 		</div>
 	</div>

@@ -1,5 +1,5 @@
 
-// this function creates a question
+// this function gets  all questions
 function getquestions(){
     fetch('https://gully.herokuapp.com/api/v1/questions',{
         method: "GET",
@@ -10,7 +10,7 @@ function getquestions(){
     .then((res) => res.json())
     .then((data) => {
         let output = '<h2>Questions</h2>';
-        data.forEach(function(data){
+        data.forEach(function(questions){
             output += `
             <div>
             <h3>${$data.title}</h3>
