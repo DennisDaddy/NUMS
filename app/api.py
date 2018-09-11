@@ -1,10 +1,12 @@
+"""Import flask modules"""
+import sys
 from flask import Flask, jsonify, request, make_response
+from flask_restful import Resource, Api
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
     get_jwt_identity
 )
-import sys
-from flask_restful import Resource, Api
+
 
 # from flask_cors import CORS
 from app.models import *
@@ -12,7 +14,7 @@ from app.models import *
 app = Flask(__name__)
 # CORS(app)
 api = Api(app)
-app.config['JWT_SECRET_KEY'] = '5c750c0e72ce5394dfe7720fa26d0327d616ff9ff869be19'  
+app.config['JWT_SECRET_KEY'] = '5c750c0e72ce5394dfe7720fa26d0327d616ff9ff869be19'
 jwt = JWTManager(app)
 
 
@@ -42,15 +44,15 @@ class QuestionList(Resource):
         title = request.get_json()['title']
         content = request.get_json()['content']
 
-        if len(title)==0:
+        if len(title) == 0:
             return jsonify({'message': 'Fill in the title'})
-        if len(title) >50:
+        if len(title) > 50:
             return jsonify({'message': 'Failed! title cannot be greater than 50 characters'})
 
-        if len(content)==0:
+        if len(content) == 0:
             return jsonify({'message': 'Fill in the content'})
-        
-        if len(content) >200:
+
+        if len(content) > 200:
             return jsonify({'message': 'Failed! content cannot be greater than 200 characters'})
 
         cur.execute("INSERT INTO questions (title, content) VALUES('"+title+"','"+content+"');")
@@ -75,17 +77,18 @@ class Question(Resource):
         """This is a method for modifying a question using PUT request"""
         cur.execute("SELECT * FROM questions WHERE ID= %s", (id,))
         question = cur.fetchone()
-        
+
         title = request.get_json()['title']
-        content = request.get_json()['content']       
+        content = request.get_json()['content']
 
         if question is not None:
-            cur.execute("UPDATE questions SET title=%s, content=%s WHERE id=%s", (title, content, id))            
+            cur.execute("UPDATE questions SET title=%s, content=%s WHERE id=%s",\
+            (title, content, id))
         else:
             return jsonify({'message': 'Not complete no entry!'})
         conn.commit()
         return jsonify({'message': 'Question successfuly Updated'})
-    
+
     @jwt_required
     def delete(self, id):
         """This is a method for deleting a question using DELETE request"""
@@ -94,7 +97,7 @@ class Question(Resource):
             conn.commit()
         except:
             return jsonify({'message': 'Cant retrieve the question!'})
-        finally: 
+        finally:
             conn.close()
         return jsonify({'message': 'Question successfully deleted!'})
 
@@ -118,7 +121,7 @@ class  AnswerList(Resource):
         """This is a method for creating an answer using POST request"""
         body = request.get_json()['body']
 
-        if len(body)==0:
+        if len(body) == 0:
             return jsonify({'message': 'Fill in the body'})
         cur.execute("INSERT INTO answers (body) VALUES('"+body+"');")
         conn.commit()
@@ -128,7 +131,7 @@ class Answer(Resource):
     """This is a class for answers with IDs"""
 
     @jwt_required
-    def get(self,id):
+    def get(self, id):
         """This is a method for getting an answer using GET request"""
         cur.execute("SELECT * FROM answers WHERE ID= %s", (id,))
         result = cur.fetchone()
@@ -142,10 +145,10 @@ class Answer(Resource):
         cur.execute("SELECT * FROM answers WHERE ID= %s", (id,))
         answer = cur.fetchone()
 
-        body = request.get_json()['body']     
+        body = request.get_json()['body']
 
         if answer is not None:
-            cur.execute("UPDATE answers SET body=%s WHERE id=%s", (body, id))            
+            cur.execute("UPDATE answers SET body=%s WHERE id=%s", (body, id))
         else:
             return jsonify({'message': 'Not complete no answer!'})
         conn.commit()
@@ -158,7 +161,7 @@ class Answer(Resource):
             conn.commit()
         except:
             return jsonify({'message': 'Cant retrieve answer!'})
-        finally: 
+        finally:
             conn.close()
         return jsonify({'message': 'Answer successfully deleted!'})
 
@@ -170,7 +173,7 @@ class CommentList(Resource):
         """This is a method for creating a comment using POST request"""
 
         body = request.get_json()['body']
-        if len(body)==0:
+        if len(body) == 0:
             return jsonify({'message': 'Fill in the comment body'})
         cur.execute("INSERT INTO comments (body) VALUES('"+body+"');")
         conn.commit()
@@ -179,7 +182,7 @@ class CommentList(Resource):
 class Comment(Resource):
     """This is a class for comments with IDs"""
     @jwt_required
-    def get(self,id):
+    def get(self, id):
         """This is a method for getting a comment information using GET request"""
 
         cur.execute("SELECT * FROM comments WHERE ID= %s", (id,))
@@ -193,10 +196,10 @@ class Comment(Resource):
 
         cur.execute("SELECT * FROM comments WHERE ID= %s", (id,))
         comment = cur.fetchone()
-        body = request.get_json()['body']     
+        body = request.get_json()['body']
 
         if comment is not None:
-            cur.execute("UPDATE comments SET body=%s WHERE id=%s", (body, id))            
+            cur.execute("UPDATE comments SET body=%s WHERE id=%s", (body, id))
         else:
             return jsonify({'message': 'Not complete, no comment!'})
         conn.commit()
@@ -209,7 +212,7 @@ class Comment(Resource):
             conn.commit()
         except:
             return jsonify({'message': 'Cant retrieve the comment!'})
-        finally: 
+        finally:
             conn.close()
         return jsonify({'message': 'Comment successfully deleted'})
 
@@ -225,7 +228,7 @@ class UserRegistration(Resource):
         password = request.get_json()['password']
         password_confirmation = request.get_json()['password_confirmation']
 
-        if not username or len(username.strip()) ==0:
+        if not username or len(username.strip()) == 0:
             return jsonify({"message": "Username cannot be blank!"})
         elif not email:
             return jsonify({"message": "Email cannot be blank!"})
@@ -235,7 +238,7 @@ class UserRegistration(Resource):
             return jsonify({"message": "Password does not match!"})
         elif len(password) < 5:
             return jsonify({"message": "Password cannot be less than 5 characters!"})
-        
+
         cur.execute("SELECT * FROM users WHERE username LIKE '"+username+"'")
         user = cur.fetchone()
         if user is None:
@@ -260,8 +263,7 @@ class UserLogin(Resource):
         user = cur.fetchone()
         if not user:
             return jsonify({'message': 'Invalid username/password combination, try again'})
-        return jsonify({'message': 'Login successful!'})
-
+        # return jsonify({'message': 'Login successful!'})
         access_token = create_access_token(identity=username)
         return jsonify(access_token=access_token)
     conn.commit()
