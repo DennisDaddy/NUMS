@@ -30,13 +30,19 @@ class QuestionList(Resource):
     @jwt_required
     def get(self):
         """This is a method for retrieving a list of questions using GET request"""
-        cur.execute("SELECT * FROM questions")
-        questions = cur.fetchall()
-        if questions is None:
-            return jsonify({"messge": "No questions found!"})
-        else:
-            return jsonify(questions)
-        conn.commit()
+
+        my_list = []
+        try:
+            cur.execute("SELECT * FROM questions")
+            rows = cur.fetchall()
+            for row in rows:
+                id = row[0]
+                title = row[1]
+                content = row[2]
+                my_list.append({"id":id, "title":title, "content":content})
+        except:
+            return jsonify({"message": "Cannot retrieve questions"})
+        return jsonify({"rows": my_list})
 
     @jwt_required
     def post(self):
@@ -288,10 +294,8 @@ api.add_resource(QuestionList, '/api/v1/questions', endpoint='questions')
 api.add_resource(Question, '/api/v1/questions/<int:id>', endpoint='question')
 api.add_resource(AnswerList, '/api/v1/answers', endpoint='answers')
 api.add_resource(Answer, '/api/v1/answers/<int:id>', endpoint='answer')
-
 api.add_resource(CommentList, '/api/v1/comments', endpoint='comments')
 api.add_resource(Comment, '/api/v1/comments/<int:id>', endpoint='comment')
-
 
 
 if __name__ == '__main__':
