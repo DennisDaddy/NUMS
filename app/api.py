@@ -234,14 +234,8 @@ class UserRegistration(Resource):
         password = request.get_json()['password']
         password_confirmation = request.get_json()['password_confirmation']
 
-        if not username or len(username.strip()) == 0:
-            return jsonify({"message": "Username cannot be blank!"})
-        elif not email:
-            return jsonify({"message": "Email cannot be blank!"})
-        elif not password:
-            return jsonify({"message": "Password cannot be blank!"})
-        elif password != password_confirmation:
-            return jsonify({"message": "Password does not match!"})
+        if not email and not password and not username or len(username.strip()) == 0:
+            return jsonify({"message": "All fields must be filled"})
         elif len(password) < 5:
             return jsonify({"message": "Password cannot be less than 5 characters!"})
 
