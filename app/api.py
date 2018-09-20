@@ -235,9 +235,7 @@ class UserRegistration(Resource):
         password_confirmation = request.get_json()['password_confirmation']
 
         if not email and not password and not username or len(username.strip()) == 0:
-            return jsonify({"message": "All fields must be filled"})
-        elif len(password) < 5:
-            return jsonify({"message": "Password cannot be less than 5 characters!"})
+            return jsonify({"message": "All fields must be filled"})       
 
         cur.execute("SELECT * FROM users WHERE username LIKE '"+username+"'")
         user = cur.fetchone()
