@@ -178,10 +178,10 @@ class CommentList(Resource):
     def post(self):
         """This is a method for creating a comment using POST request"""
 
-        body = request.get_json()['body']
-        if len(body) == 0:
-            return jsonify({'message': 'Fill in the comment body'})
-        cur.execute("INSERT INTO comments (body) VALUES('"+body+"');")
+        content = request.get_json()['content']
+        if len(content) == 0:
+            return jsonify({'message': 'Fill in the comment content'})
+        cur.execute("INSERT INTO comments (content) VALUES('"+content+"');")
         conn.commit()
         return jsonify({'message': 'Comment successfully created!'})
 
@@ -202,10 +202,10 @@ class Comment(Resource):
 
         cur.execute("SELECT * FROM comments WHERE ID= %s", (id,))
         comment = cur.fetchone()
-        body = request.get_json()['body']
+        content = request.get_json()['content']
 
         if comment is not None:
-            cur.execute("UPDATE comments SET body=%s WHERE id=%s", (body, id))
+            cur.execute("UPDATE comments SET content=%s WHERE id=%s", (content, id))
         else:
             return jsonify({'message': 'Not complete, no comment!'})
         conn.commit()

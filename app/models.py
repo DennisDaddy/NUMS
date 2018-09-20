@@ -31,7 +31,7 @@ cur.execute('''CREATE TABLE IF NOT EXISTS answers(
 
 cur.execute('''CREATE TABLE IF NOT EXISTS comments(
     id serial PRIMARY KEY,
-    body varchar (100) NOT NULL,
+    content varchar (100) NOT NULL,
     timestamp timestamp default current_timestamp
 ) ''')
 conn.commit()
