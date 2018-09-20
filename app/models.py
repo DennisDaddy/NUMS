@@ -2,7 +2,7 @@
 import psycopg2
 
 #connect using psycopg
-conn = psycopg2.connect("dbname=stackover user=postgres password=123456 host=localhost")
+conn = psycopg2.connect("dbname=drm92ntpe135k user=exhrffnwuhrotl password=df30d489b7f282f538412a484f40f845e17bb6d3f14230582ff378fc293c590a host=ec2-50-17-194-129.compute-1.amazonaws.com")
 #Activate connection cursor
 cur = conn.cursor()
 

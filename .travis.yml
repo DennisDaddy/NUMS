@@ -10,7 +10,6 @@ python:
 install:
   - pip install r requirements.txt
 script:
-  - cd tests
   - python test_user.py
   - python test_questions.py
   - python test_answers.py
