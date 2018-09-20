@@ -11,6 +11,7 @@ install:
   - pip install r requirements.txt
 script:
   - python test_user.py
+  - python test_questions.py
   - python test_answers.py
   - python -m pytest --cov-report term-missing --cov=app
 after_sucess:

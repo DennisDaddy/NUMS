@@ -9,12 +9,9 @@ cur = conn.cursor()
 #create tables
 cur.execute('''CREATE TABLE IF NOT EXISTS questions(
     id serial PRIMARY KEY,
-    user_id int,
     title varchar (50) NOT NULL,
     content varchar (100) NOT NULL,
-    timestamp timestamp default current_timestamp,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
-
+    timestamp timestamp default current_timestamp
 ) ''')
 
 cur.execute('''CREATE TABLE IF NOT EXISTS users(

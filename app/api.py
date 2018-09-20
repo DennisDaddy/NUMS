@@ -269,7 +269,7 @@ class UserLogin(Resource):
         user = cur.fetchone()
         if not user:
             return jsonify({'message': 'Invalid username/password combination, try again'})
-        return jsonify({'message': 'Login successful!'})
+        # return jsonify({'message': 'Login successful!'})
         access_token = create_access_token(identity=username)
         return jsonify(access_token=access_token)
     conn.commit()
