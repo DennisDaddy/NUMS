@@ -2,7 +2,7 @@ language: python
 
 python:
   -'2.7'
-  # -'3.4'
+  -'3.4'
   -'3.6'
  
   
@@ -11,7 +11,6 @@ install:
   - pip install r requirements.txt
 script:
   - python test_user.py
-  - python test_questions.py
   - python test_answers.py
   - python -m pytest --cov-report term-missing --cov=app
 after_sucess:
