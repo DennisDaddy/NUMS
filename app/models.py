@@ -2,16 +2,19 @@
 import psycopg2
 
 #connect using psycopg
-conn = psycopg2.connect("dbname=drm92ntpe135k user=exhrffnwuhrotl password=df30d489b7f282f538412a484f40f845e17bb6d3f14230582ff378fc293c590a host=ec2-50-17-194-129.compute-1.amazonaws.com")
+conn = psycopg2.connect("dbname=stackover user=postgres password=123456 host=localhost")
 #Activate connection cursor
 cur = conn.cursor()
 
 #create tables
 cur.execute('''CREATE TABLE IF NOT EXISTS questions(
     id serial PRIMARY KEY,
+    user_id int,
     title varchar (50) NOT NULL,
     content varchar (100) NOT NULL,
-    timestamp timestamp default current_timestamp
+    timestamp timestamp default current_timestamp,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+
 ) ''')
 
 cur.execute('''CREATE TABLE IF NOT EXISTS users(

@@ -1,6 +1,7 @@
 # StackOverflow-Lite
 [![Build Status](https://travis-ci.com/DennisDaddy/NUMS.svg?branch=challenge-one)](https://travis-ci.com/DennisDaddy/NUMS)
 [![Maintainability](https://api.codeclimate.com/v1/badges/1aa0531c0fafdbfc3e8a/maintainability)](https://codeclimate.com/github/DennisDaddy/NUMS/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/1aa0531c0fafdbfc3e8a/test_coverage)](https://codeclimate.com/github/DennisDaddy/NUMS/test_coverage)
 
 
 
@@ -13,7 +14,8 @@ All the data is stored in the database, make sure you have installed PostgreSQL 
 
 This API is built on the top of Flask python web framework.
 
-
+### Heroku link
+This is the link... https://gully.herokuapp.com/api/v1
 
 ### Setting up the environment
 
@@ -88,3 +90,23 @@ $ python app.py
 **`PUT /api/v1/questions/<question_id>`** *Update question details*
 
 **`DELETE /api/v1/questions/<question_id>`** *Delete question*
+
+**`GET /api/v1/answers`** *Get all the answers*
+
+**`GET /api/v1/answers/<answer_id>`** *Get single answer*
+
+**`POST /api/v1/answers`** *Create new answer*
+
+**`PUT /api/v1/answers/<answer_id>`** *Update answer details*
+
+**`DELETE /api/v1/answers/<answer_id>`** *Delete answer*
+
+**`GET /api/v1/comments`** *Get all the comments*
+
+**`GET /api/v1/comments/<comment_id>`** *Get single comment*
+
+**`POST /api/v1/comments`** *Create new comment*
+
+**`PUT /api/v1/comments/<comment_id>`** *Update comment details*
+
+**`DELETE /api/v1/comments/<comment_id>`** *Delete comment*
