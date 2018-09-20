@@ -176,8 +176,7 @@ class CommentList(Resource):
     """This is a class for retrieving comments without IDs"""
     @jwt_required
     def post(self):
-        """This is a method for creating a comment using POST request"""
-
+        """Here comment is created using post request"""
         content = request.get_json()['content']
         if len(content) == 0:
             return jsonify({'message': 'Fill in the comment content'})
