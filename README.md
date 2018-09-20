@@ -1,5 +1,6 @@
 # StackOverflow-Lite
-[![Build Status](https://travis-ci.com/DennisDaddy/NUMS.svg?branch=challenge-one)](https://travis-ci.com/DennisDaddy/NUMS)
+[![Build Status](https://travis-ci.com/DennisDaddy/MyDiary.svg?branch=challenge3)](https://travis-ci.com/DennisDaddy/MyDiary)
+
 [![Maintainability](https://api.codeclimate.com/v1/badges/1aa0531c0fafdbfc3e8a/maintainability)](https://codeclimate.com/github/DennisDaddy/NUMS/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/1aa0531c0fafdbfc3e8a/test_coverage)](https://codeclimate.com/github/DennisDaddy/NUMS/test_coverage)
 
