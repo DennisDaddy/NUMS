@@ -1,21 +1,21 @@
 """Import flask modules"""
 import sys
 from flask import Flask, jsonify, request, make_response
-from flask_cors import CORS
+# from flask_cors import CORS
 from flask_restful import Resource, Api
-from flask_jwt_extended import (
-    JWTManager, jwt_required, create_access_token,
-    get_jwt_identity
-)
+# from flask_jwt_extended import (
+#     JWTManager, jwt_required, create_access_token,
+#     get_jwt_identity
+# )
 
 
 from app.models import *
 
 app = Flask(__name__)
-CORS(app)
+# CORS(app)
 api = Api(app)
 app.config['JWT_SECRET_KEY'] = '5c750c0e72ce5394dfe7720fa26d0327d616ff9ff869be19'
-jwt = JWTManager(app)
+# jwt = JWTManager(app)
 
 
 class Home(Resource):
@@ -27,7 +27,7 @@ class Home(Resource):
 class QuestionList(Resource):
     """This is a class for questions without IDs"""
 
-    @jwt_required
+    # @jwt_required
     def get(self):
         """This is a method for retrieving a list of questions using GET request"""
         cur.execute("SELECT * FROM questions")
@@ -38,7 +38,7 @@ class QuestionList(Resource):
             return jsonify(questions)
         conn.commit()
 
-    @jwt_required
+    # @jwt_required
     def post(self):
         """This is a method for creating a question using POST request"""
         title = request.get_json()['title']
@@ -63,7 +63,7 @@ class QuestionList(Resource):
 class Question(Resource):
     """This is a class for questions with IDs"""
 
-    @jwt_required
+    # @jwt_required
     def get(self, id):
         """This is a method for retrieving question using GET request"""
         cur.execute("SELECT * FROM questions WHERE ID= %s", (id,))
@@ -72,7 +72,7 @@ class Question(Resource):
             return jsonify({'message': 'Question not found!'})
         return jsonify(result)
 
-    @jwt_required
+    # @jwt_required
     def put(self, id):
         """This is a method for modifying a question using PUT request"""
         cur.execute("SELECT * FROM questions WHERE ID= %s", (id,))
@@ -89,7 +89,7 @@ class Question(Resource):
         conn.commit()
         return jsonify({'message': 'Question successfuly Updated'})
 
-    @jwt_required
+    # @jwt_required
     def delete(self, id):
         """This is a method for deleting a question using DELETE request"""
         try:
@@ -105,7 +105,7 @@ class Question(Resource):
 class  AnswerList(Resource):
     """This is a class for answers without IDs"""
 
-    @jwt_required
+    # @jwt_required
     def get(self):
         """This is a method for retrieving an answers using GET request """
         cur.execute("SELECT * FROM answers")
@@ -116,7 +116,7 @@ class  AnswerList(Resource):
             return jsonify(answers)
         conn.commit()
 
-    @jwt_required
+    # @jwt_required
     def post(self):
         """This is a method for creating an answer using POST request"""
         body = request.get_json()['body']
@@ -130,7 +130,7 @@ class  AnswerList(Resource):
 class Answer(Resource):
     """This is a class for answers with IDs"""
 
-    @jwt_required
+    # @jwt_required
     def get(self, id):
         """This is a method for getting an answer using GET request"""
         cur.execute("SELECT * FROM answers WHERE ID= %s", (id,))
@@ -139,7 +139,7 @@ class Answer(Resource):
             return jsonify({'message': 'Answer not found!'})
         return jsonify(result)
 
-    @jwt_required
+    # @jwt_required
     def put(self, id):
         """This is a method for modifying an answer using PUT request"""
         cur.execute("SELECT * FROM answers WHERE ID= %s", (id,))
@@ -153,7 +153,7 @@ class Answer(Resource):
             return jsonify({'message': 'Not complete no answer!'})
         conn.commit()
         return jsonify({'message': 'Answer successfuly Updated'})
-    @jwt_required
+    # @jwt_required
     def delete(self, id):
         """This is a method for deleting an answer for a question using DELETE request"""
         try:
@@ -168,7 +168,7 @@ class Answer(Resource):
 
 class CommentList(Resource):
     """This is a class for retrieving comments without IDs"""
-    @jwt_required
+    # @jwt_required
     def post(self):
         """This is a method for creating a comment using POST request"""
 
@@ -181,7 +181,7 @@ class CommentList(Resource):
 
 class Comment(Resource):
     """This is a class for comments with IDs"""
-    @jwt_required
+    # @jwt_required
     def get(self, id):
         """This is a method for getting a comment information using GET request"""
 
@@ -190,7 +190,7 @@ class Comment(Resource):
         if result is None:
             return jsonify({'message': 'Comment not found!'})
         return jsonify(result)
-    @jwt_required
+    # @jwt_required
     def put(self, id):
         """This is a method for modifying a comment using PUT request"""
 
@@ -204,7 +204,7 @@ class Comment(Resource):
             return jsonify({'message': 'Not complete, no comment!'})
         conn.commit()
         return jsonify({'message': 'Comment successfuly Updated'})
-    @jwt_required
+    # @jwt_required
     def delete(self, id):
         """This is a method for deleting a comment using DELETE request"""
         try:
@@ -264,13 +264,13 @@ class UserLogin(Resource):
         if not user:
             return jsonify({'message': 'Invalid username/password combination, try again'})
         # return jsonify({'message': 'Login successful!'})
-        access_token = create_access_token(identity=username)
-        return jsonify(access_token=access_token)
+        # access_token = create_access_token(identity=username)
+        # return jsonify(access_token=access_token)
     conn.commit()
 
 class UserInfo(Resource):
     """This is a class for retrieving user information"""
-    @jwt_required
+    # @jwt_required
     def get(self, user_id):
         """This is a method for retrieving user information"""
         cur.execute("SELECT * FROM users WHERE ID = %s", (user_id,))
